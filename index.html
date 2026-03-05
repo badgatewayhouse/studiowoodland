@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Woodland — Lynn M. Ruiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #faf8f4;
+      --bg-warm:    #f3ede3;
+      --surface:    #ffffff;
+      --ink:        #1e1a16;
+      --ink-mid:    #5a5046;
+      --ink-light:  #9a8f82;
+      --accent:     #b85c2a;
+      --accent-soft:#e8c9b0;
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'Jost', system-ui, sans-serif;
+      --gutter:     clamp(1.5rem, 4vw, 3rem);
+      --max-w:      1200px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ─── Texture overlay ───────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ─── Nav ───────────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--accent-soft);
+    }
+
+    nav {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-brand .studio {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .nav-brand .name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── Page sections ─────────────────────────────────────────── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── Hero strip ────────────────────────────────────────────── */
+    .hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 3rem var(--gutter) 1.5rem;
+      border-bottom: 1px solid var(--accent-soft);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ─── Gallery grid ──────────────────────────────────────────── */
+    .gallery-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter) 4rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 6px;
+    }
+
+    .gallery-item {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      background: var(--bg-warm);
+      aspect-ratio: 1 / 1;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    /* Placeholder tiles for demo */
+    .gallery-item .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      background: var(--bg-warm);
+    }
+
+    .gallery-item:hover img,
+    .gallery-item:hover .placeholder {
+      transform: scale(1.03);
+      filter: brightness(0.88);
+    }
+
+    .gallery-item .hover-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1rem 1rem;
+      background: linear-gradient(to top, rgba(30,26,22,0.75) 0%, transparent 100%);
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .gallery-item:hover .hover-label { opacity: 1; }
+
+    .hover-label .piece-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .hover-label .piece-meta {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+
+    /* ─── Lightbox – click 1: detail panel ─────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(30, 26, 22, 0.85);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .lightbox.open { display: flex; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .lb-card {
+      background: var(--surface);
+      display: flex;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+    }
+
+    .lb-image-wrap {
+      flex: 1 1 55%;
+      background: var(--bg-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: zoom-in;
+      position: relative;
+    }
+
+    .lb-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lb-image-wrap .lb-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--ink-light);
+      background: var(--bg-warm);
+    }
+
+    .lb-zoom-hint {
+      position: absolute;
+      bottom: 0.75rem;
+      right: 0.75rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      background: rgba(255,255,255,0.85);
+      padding: 0.3rem 0.6rem;
+    }
+
+    .lb-info {
+      flex: 0 0 280px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--accent-soft);
+      overflow-y: auto;
+    }
+
+    .lb-info .lb-title {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .lb-info .lb-year {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 0.4rem;
+    }
+
+    .lb-divider {
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+      margin: 1.25rem 0;
+    }
+
+    .lb-detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      margin-bottom: 1rem;
+    }
+
+    .lb-detail-row .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .lb-detail-row .value {
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .lb-note {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--accent-soft);
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-size: 1.5rem;
+      line-height: 1;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      z-index: 210;
+    }
+
+    .lb-close:hover { opacity: 1; }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.75rem 1rem;
+      transition: background 0.2s;
+      z-index: 210;
+    }
+
+    .lb-nav:hover { background: rgba(255,255,255,0.3); }
+    .lb-nav.prev { left: 1rem; }
+    .lb-nav.next { right: 1rem; }
+
+    /* ─── Fullscreen – click 2 ──────────────────────────────────── */
+    .fullscreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: #0d0b09;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .fullscreen.open { display: flex; }
+
+    .fullscreen img {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+    }
+
+    .fullscreen .fs-placeholder {
+      color: var(--ink-light);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.2rem;
+    }
+
+    .fullscreen .fs-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .fullscreen .fs-close:hover { color: #fff; }
+
+    /* ─── Text pages (Bio, Statement, Contact) ──────────────────── */
+    .text-page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem var(--gutter) 6rem;
+    }
+
+    .text-page .page-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .text-page h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+
+    .text-page p {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--ink-mid);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── Contact ───────────────────────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item .c-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-item a {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-soft);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-item a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .contact-form {
+      grid-column: 1 / -1;
+      margin-top: 1rem;
+      border-top: 1px solid var(--accent-soft);
+      padding-top: 2rem;
+    }
+
+    .contact-form h3 {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      color: var(--ink);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: var(--bg);
+      border: 1px solid var(--accent-soft);
+      padding: 0.75rem 1rem;
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .btn-send {
+      margin-top: 1rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 2.5rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-send:hover { background: #9a4a20; }
+
+    /* ─── Footer ────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--accent-soft);
+      padding: 2rem var(--gutter);
+      text-align: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-light);
+      font-family: var(--sans);
+    }
+
+    /* ─── Mobile ────────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .nav-links { gap: 1.1rem; }
+      .nav-links a { font-size: 0.65rem; }
+      .lb-card { flex-direction: column; max-height: 95vh; }
+      .lb-image-wrap { flex: 0 0 50%; min-height: 240px; }
+      .lb-info { flex: none; border-left: none; border-top: 1px solid var(--accent-soft); }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .lb-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────────── -->
+  <header>
+    <nav>
+      <a class="nav-brand" href="#" onclick="showPage('home')">
+        <span class="studio">Studio Woodland</span>
+        <span class="name">Lynn M. Ruiz</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('paintings')">Paintings</a></li>
+        <li><a href="#" onclick="showPage('bio')">Bio</a></li>
+        <li><a href="#" onclick="showPage('statement')">Artist Statement</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ── Home ─────────────────────────────────────────────────── -->
+  <main id="page-home" class="page active">
+    <div class="hero">
+      <h1>Mosaic Works</h1>
+      <p>Lynn M. Ruiz &nbsp;·&nbsp; Studio Woodland</p>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery-grid" id="home-grid"></div>
+    </div>
+  </main>
+
+  <!-- ── Paintings ─────────────────────────────────────────────── -->
+  <main id="page-paintings" class="page">
+    <div class="hero">
+      <h1>All Paintings</h1>
+      <p>Mosaic on board &amp; panel</p>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery-grid" id="paintings-grid"></div>
+    </div>
+  </main>
+
+  <!-- ── Bio ───────────────────────────────────────────────────── -->
+  <main id="page-bio" class="page">
+    <div class="text-page">
+      <p class="page-label">About the Artist</p>
+      <h2>Lynn M. Ruiz</h2>
+      <p>
+        Lynn M. Ruiz is a mosaic artist based in the Pacific Northwest. Working primarily in 
+        glass, ceramic, and stone tesserae, she creates richly textured works that explore 
+        the interplay of color, light, and form. Her studio practice spans over two decades, 
+        informed by a lifelong fascination with the way small, singular pieces can 
+        come together to form something wholly unified.
+      </p>
+      <p>
+        Her work has been shown in regional galleries and private collections throughout 
+        the United States. She accepts a limited number of commissions each year.
+      </p>
+      <p style="font-style:italic; color: var(--ink-light); font-family: var(--serif); font-size:0.9rem;">
+        ← Replace this placeholder text with Lynn's actual bio.
+      </p>
+    </div>
+  </main>
+
+  <!-- ── Artist Statement ──────────────────────────────────────── -->
+  <main id="page-statement" class="page">
+    <div class="text-page">
+      <p class="page-label">Artist Statement</p>
+      <h2>On Making</h2>
+      <p>
+        I am drawn to the fragment — the single tessera, the broken edge, the piece 
+        that seems incomplete on its own. Mosaic is the art of patient accumulation: 
+        trust the process long enough and the image emerges, whole and luminous, from 
+        what looked like chaos.
+      </p>
+      <p>
+        My subjects are drawn from the natural world — light on water, the geometry 
+        of bark and leaf, the way color shifts at dusk. I am interested in how we 
+        perceive wholeness from proximity and distance both.
+      </p>
+      <p style="font-style:italic; color: var(--ink-light); font-family: var(--serif); font-size:0.9rem;">
+        ← Replace this placeholder text with Lynn's actual statement.
+      </p>
+    </div>
+  </main>
+
+  <!-- ── Contact ───────────────────────────────────────────────── -->
+  <main id="page-contact" class="page">
+    <div class="text-page">
+      <p class="page-label">Get in Touch</p>
+      <h2>Contact</h2>
+      <p>Commissions, inquiries, and correspondence welcome.</p>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <p class="c-label">Email</p>
+          <a href="mailto:lynn@studiowoodland.com">lynn@studiowoodland.com</a>
+        </div>
+        <div class="contact-item">
+          <p class="c-label">Instagram</p>
+          <a href="https://instagram.com" target="_blank">@studiowoodland</a>
+        </div>
+        <div class="contact-form">
+          <h3>Send a message</h3>
+          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn-send">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Lightbox (click 1) ─────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" onclick="handleLightboxClick(event)">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <button class="lb-nav prev" onclick="event.stopPropagation(); navigate(-1)">&#8592;</button>
+    <button class="lb-nav next" onclick="event.stopPropagation(); navigate(1)">&#8594;</button>
+    <div class="lb-card" onclick="event.stopPropagation()">
+      <div class="lb-image-wrap" onclick="openFullscreen()" title="Click to view full size">
+        <div class="lb-placeholder" id="lb-placeholder">artwork</div>
+        <img id="lb-img" src="" alt="" style="display:none" />
+        <span class="lb-zoom-hint">Click to enlarge</span>
+      </div>
+      <div class="lb-info">
+        <p class="lb-title" id="lb-title">Title</p>
+        <p class="lb-year" id="lb-year">2024</p>
+        <div class="lb-divider"></div>
+        <div class="lb-detail-row">
+          <span class="label">Medium</span>
+          <span class="value" id="lb-medium">Mosaic on board</span>
+        </div>
+        <div class="lb-detail-row">
+          <span class="label">Dimensions</span>
+          <span class="value" id="lb-dimensions">12 × 16 in</span>
+        </div>
+        <div class="lb-detail-row" id="lb-series-row">
+          <span class="label">Series</span>
+          <span class="value" id="lb-series"></span>
+        </div>
+        <p class="lb-note" id="lb-note"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Fullscreen (click 2) ──────────────────────────────────── -->
+  <div class="fullscreen" id="fullscreen" onclick="closeFullscreen()">
+    <button class="fs-close" onclick="closeFullscreen()">✕</button>
+    <img id="fs-img" src="" alt="" style="display:none" />
+    <div class="fs-placeholder" id="fs-placeholder">Full resolution view</div>
+  </div>
+
+  <footer>
+    <p>&copy; <span id="yr"></span> Lynn M. Ruiz &nbsp;·&nbsp; Studio Woodland &nbsp;·&nbsp; All rights reserved</p>
+  </footer>
+
+  <script>
+    // ─── Artwork data ──────────────────────────────────────────────
+    // To add a painting: copy one object, fill in the fields.
+    // "image" should be the path to the file, e.g. "assets/images/my-painting.jpg"
+    // Leave image as "" to show a colored placeholder.
+    const paintings = [
+      {
+        id: 1,
+        title: "Morning Light",
+        year: "2023",
+        medium: "Glass mosaic on board",
+        dimensions: "18 × 24 in",
+        series: "Light Studies",
+        note: "Inspired by early morning reflections on still water.",
+        image: "",
+        color: "#c9a87c"
+      },
+      {
+        id: 2,
+        title: "Woodland Floor",
+        year: "2023",
+        medium: "Ceramic & glass tesserae",
+        dimensions: "12 × 12 in",
+        series: "Woodland",
+        note: "Fragment and whole — a meditation on the forest floor.",
+        image: "",
+        color: "#7a9e7e"
+      },
+      {
+        id: 3,
+        title: "Ember",
+        year: "2022",
+        medium: "Smalti mosaic",
+        dimensions: "16 × 20 in",
+        series: "Fire & Light",
+        note: "The geometry of heat.",
+        image: "",
+        color: "#b85c2a"
+      },
+      {
+        id: 4,
+        title: "Still Pool",
+        year: "2022",
+        medium: "Glass mosaic on panel",
+        dimensions: "24 × 30 in",
+        series: "Water",
+        note: "",
+        image: "",
+        color: "#5b8fa8"
+      },
+      {
+        id: 5,
+        title: "Dusk, October",
+        year: "2024",
+        medium: "Mixed tesserae on board",
+        dimensions: "20 × 20 in",
+        series: "Seasons",
+        note: "Color at the edge of daylight.",
+        image: "",
+        color: "#9b6b8a"
+      },
+      {
+        id: 6,
+        title: "Stone Study I",
+        year: "2021",
+        medium: "Natural stone & glass",
+        dimensions: "10 × 10 in",
+        series: "Studies",
+        note: "",
+        image: "",
+        color: "#8a8070"
+      },
+      {
+        id: 7,
+        title: "Canopy",
+        year: "2024",
+        medium: "Glass mosaic on board",
+        dimensions: "30 × 40 in",
+        series: "Woodland",
+        note: "Looking up through old growth.",
+        image: "",
+        color: "#4a7a5a"
+      },
+      {
+        id: 8,
+        title: "River Bend",
+        year: "2023",
+        medium: "Smalti & ceramic",
+        dimensions: "18 × 18 in",
+        series: "Water",
+        note: "",
+        image: "",
+        color: "#6b9aaa"
+      },
+      {
+        id: 9,
+        title: "Late Summer",
+        year: "2022",
+        medium: "Glass & stone tesserae",
+        dimensions: "14 × 18 in",
+        series: "Seasons",
+        note: "The last heavy warmth before the turn.",
+        image: "",
+        color: "#c4a050"
+      },
+    ];
+
+    let currentIndex = 0;
+
+    // ─── Build grids ───────────────────────────────────────────────
+    function buildGrid(containerId, items) {
+      const grid = document.getElementById(containerId);
+      if (!grid) return;
+      grid.innerHTML = '';
+      items.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.dataset.index = i;
+        div.onclick = () => openLightbox(i);
+
+        if (p.image) {
+          div.innerHTML = `
+            <img src="${p.image}" alt="${p.title}" loading="lazy" />
+            <div class="hover-label">
+              <div class="piece-title">${p.title}</div>
+              <div class="piece-meta">${p.medium} &nbsp;·&nbsp; ${p.year}</div>
+            </div>`;
+        } else {
+          div.innerHTML = `
+            <div class="placeholder" style="background:${p.color}20; color:${p.color};">
+              ${p.title}
+            </div>
+            <div class="hover-label">
+              <div class="piece-title">${p.title}</div>
+              <div class="piece-meta">${p.medium} &nbsp;·&nbsp; ${p.year}</div>
+            </div>`;
+        }
+        grid.appendChild(div);
+      });
+    }
+
+    buildGrid('home-grid', paintings);
+    buildGrid('paintings-grid', paintings);
+
+    // ─── Lightbox ──────────────────────────────────────────────────
+    function openLightbox(index) {
+      currentIndex = index;
+      renderLightbox();
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderLightbox() {
+      const p = paintings[currentIndex];
+      document.getElementById('lb-title').textContent = p.title;
+      document.getElementById('lb-year').textContent = p.year;
+      document.getElementById('lb-medium').textContent = p.medium;
+      document.getElementById('lb-dimensions').textContent = p.dimensions;
+
+      const seriesRow = document.getElementById('lb-series-row');
+      if (p.series) {
+        document.getElementById('lb-series').textContent = p.series;
+        seriesRow.style.display = '';
+      } else {
+        seriesRow.style.display = 'none';
+      }
+
+      const noteEl = document.getElementById('lb-note');
+      noteEl.textContent = p.note || '';
+      noteEl.style.display = p.note ? '' : 'none';
+
+      const img = document.getElementById('lb-img');
+      const ph = document.getElementById('lb-placeholder');
+      if (p.image) {
+        img.src = p.image;
+        img.alt = p.title;
+        img.style.display = 'block';
+        ph.style.display = 'none';
+      } else {
+        img.style.display = 'none';
+        ph.style.display = 'flex';
+        ph.style.background = p.color + '20';
+        ph.style.color = p.color;
+        ph.textContent = p.title;
+      }
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleLightboxClick(e) {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+
+    function navigate(dir) {
+      currentIndex = (currentIndex + dir + paintings.length) % paintings.length;
+      renderLightbox();
+    }
+
+    // ─── Fullscreen ────────────────────────────────────────────────
+    function openFullscreen() {
+      const p = paintings[currentIndex];
+      const fs = document.getElementById('fullscreen');
+      const fsImg = document.getElementById('fs-img');
+      const fsPh = document.getElementById('fs-placeholder');
+      if (p.image) {
+        fsImg.src = p.image;
+        fsImg.alt = p.title;
+        fsImg.style.display = 'block';
+        fsPh.style.display = 'none';
+      } else {
+        fsImg.style.display = 'none';
+        fsPh.style.display = 'block';
+        fsPh.textContent = p.title + ' — full resolution';
+      }
+      fs.classList.add('open');
+    }
+
+    function closeFullscreen() {
+      document.getElementById('fullscreen').classList.remove('open');
+    }
+
+    // ─── Keyboard nav ──────────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('lightbox').classList.contains('open');
+      const fs = document.getElementById('fullscreen').classList.contains('open');
+      if (fs) { if (e.key === 'Escape') closeFullscreen(); return; }
+      if (lb) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') navigate(1);
+        if (e.key === 'ArrowLeft') navigate(-1);
+      }
+    });
+
+    // ─── Page routing ──────────────────────────────────────────────
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ─── Footer year ───────────────────────────────────────────────
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
