@@ -144,13 +144,13 @@
     .gallery-wrap {
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: 0 var(--gutter) 4rem;
+      padding: 1rem var(--gutter) 4rem;
     }
 
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 6px;
+      gap: 12px;
     }
 
     .gallery-item {
@@ -159,14 +159,30 @@
       overflow: hidden;
       background: var(--bg-warm);
       aspect-ratio: 1 / 1;
+      border-radius: 6px;
     }
 
-    .gallery-item img {
+    .gallery-item .gallery-bg {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      filter: blur(22px) brightness(0.72) saturate(1.15);
+      transform: scale(1.15); /* prevent blur-edge bleed */
+      pointer-events: none;
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+
+    .gallery-item .gallery-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       display: block;
-      transition: transform 0.4s ease, filter 0.4s ease;
+      z-index: 1;
+      transform: scale(0.91);
+      transition: transform 0.4s ease;
     }
 
     /* Placeholder tiles for demo */
@@ -183,7 +199,15 @@
       background: var(--bg-warm);
     }
 
-    .gallery-item:hover img,
+    .gallery-item:hover .gallery-img {
+      transform: scale(0.95);
+    }
+
+    .gallery-item:hover .gallery-bg {
+      filter: blur(22px) brightness(0.58) saturate(1.15);
+      transform: scale(1.18);
+    }
+
     .gallery-item:hover .placeholder {
       transform: scale(1.03);
       filter: brightness(0.88);
@@ -192,6 +216,7 @@
     .gallery-item .hover-label {
       position: absolute;
       bottom: 0; left: 0; right: 0;
+      z-index: 2;
       padding: 2rem 1rem 1rem;
       background: linear-gradient(to top, rgba(30,26,22,0.75) 0%, transparent 100%);
       color: #fff;
@@ -609,10 +634,6 @@
 
   <!-- ── Home ─────────────────────────────────────────────────── -->
   <main id="page-home" class="page active">
-    <div class="hero">
-      <h1>Mosaic Works</h1>
-      <p>Lynn M. Ruiz &nbsp;·&nbsp; Studio Woodland</p>
-    </div>
     <div class="gallery-wrap">
       <div class="gallery-grid" id="home-grid"></div>
     </div>
@@ -765,102 +786,157 @@
     const paintings = [
       {
         id: 1,
-        title: "Morning Light",
-        year: "2023",
-        medium: "Glass mosaic on board",
-        dimensions: "18 × 24 in",
-        series: "Light Studies",
-        note: "Inspired by early morning reflections on still water.",
-        image: "",
-        color: "#c9a87c"
-      },
-      {
-        id: 2,
-        title: "Woodland Floor",
-        year: "2023",
-        medium: "Ceramic & glass tesserae",
-        dimensions: "12 × 12 in",
-        series: "Woodland",
-        note: "Fragment and whole — a meditation on the forest floor.",
-        image: "",
+        title: "Bamboo in the Garden",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Bamboo in the gardern.jpeg",
         color: "#7a9e7e"
       },
       {
-        id: 3,
-        title: "Ember",
-        year: "2022",
-        medium: "Smalti mosaic",
-        dimensions: "16 × 20 in",
-        series: "Fire & Light",
-        note: "The geometry of heat.",
-        image: "",
-        color: "#b85c2a"
-      },
-      {
-        id: 4,
-        title: "Still Pool",
-        year: "2022",
-        medium: "Glass mosaic on panel",
-        dimensions: "24 × 30 in",
-        series: "Water",
+        id: 2,
+        title: "Behind the Garden",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
         note: "",
-        image: "",
-        color: "#5b8fa8"
-      },
-      {
-        id: 5,
-        title: "Dusk, October",
-        year: "2024",
-        medium: "Mixed tesserae on board",
-        dimensions: "20 × 20 in",
-        series: "Seasons",
-        note: "Color at the edge of daylight.",
-        image: "",
-        color: "#9b6b8a"
-      },
-      {
-        id: 6,
-        title: "Stone Study I",
-        year: "2021",
-        medium: "Natural stone & glass",
-        dimensions: "10 × 10 in",
-        series: "Studies",
-        note: "",
-        image: "",
-        color: "#8a8070"
-      },
-      {
-        id: 7,
-        title: "Canopy",
-        year: "2024",
-        medium: "Glass mosaic on board",
-        dimensions: "30 × 40 in",
-        series: "Woodland",
-        note: "Looking up through old growth.",
-        image: "",
+        image: "images/Behind the Garden.jpeg",
         color: "#4a7a5a"
       },
       {
-        id: 8,
-        title: "River Bend",
-        year: "2023",
-        medium: "Smalti & ceramic",
-        dimensions: "18 × 18 in",
-        series: "Water",
+        id: 3,
+        title: "Cherry Blossoms 1 & 2 (Diptych)",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
         note: "",
-        image: "",
-        color: "#6b9aaa"
+        image: "images/Cherry Blossoms  1&2 Diptech.jpeg",
+        color: "#e8c9b0"
+      },
+      {
+        id: 4,
+        title: "Cherry Blossoms I",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Cherry Blossoms1.jpeg",
+        color: "#e8c9b0"
+      },
+      {
+        id: 5,
+        title: "Cherry Blossoms II",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Cherry Bossoms 2.jpeg",
+        color: "#e8c9b0"
+      },
+      {
+        id: 6,
+        title: "Ivory Rose",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Ivory Rose.jpeg",
+        color: "#f3ede3"
+      },
+      {
+        id: 7,
+        title: "Max's Vase",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Max_s Vase.jpeg",
+        color: "#c9a87c"
+      },
+      {
+        id: 8,
+        title: "Poinsettia",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Poinsettia.jpeg",
+        color: "#b85c2a"
       },
       {
         id: 9,
-        title: "Late Summer",
-        year: "2022",
-        medium: "Glass & stone tesserae",
-        dimensions: "14 × 18 in",
-        series: "Seasons",
-        note: "The last heavy warmth before the turn.",
-        image: "",
-        color: "#c4a050"
+        title: "Pothos Vitrum",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Pothos Vitrum.jpeg",
+        color: "#7a9e7e"
+      },
+      {
+        id: 10,
+        title: "Pothos Vitrum with Plant",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Pothos vitrum with plant.jpeg",
+        color: "#7a9e7e"
+      },
+      {
+        id: 11,
+        title: "Tulip Magnolia",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Tulip Magnolia.jpeg",
+        color: "#9b6b8a"
+      },
+      {
+        id: 12,
+        title: "Two Birds for Ann",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Two birds for Ann.jpeg",
+        color: "#5b8fa8"
+      },
+      {
+        id: 13,
+        title: "Waterfall Watcher",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/Waterfall Watcher.jpeg",
+        color: "#5b8fa8"
+      },
+      {
+        id: 14,
+        title: "Untitled",
+        year: "",
+        medium: "",
+        dimensions: "",
+        series: "",
+        note: "",
+        image: "images/untitled.jpeg",
+        color: "#8a8070"
       },
     ];
 
@@ -879,10 +955,11 @@
 
         if (p.image) {
           div.innerHTML = `
-            <img src="${p.image}" alt="${p.title}" loading="lazy" />
+            <img class="gallery-bg" src="${p.image}" alt="" aria-hidden="true" />
+            <img class="gallery-img" src="${p.image}" alt="${p.title}" loading="lazy" />
             <div class="hover-label">
               <div class="piece-title">${p.title}</div>
-              <div class="piece-meta">${p.medium} &nbsp;·&nbsp; ${p.year}</div>
+              ${p.medium || p.year ? `<div class="piece-meta">${p.medium}${p.medium && p.year ? " · " : ""}${p.year}</div>` : ""}
             </div>`;
         } else {
           div.innerHTML = `
@@ -891,7 +968,7 @@
             </div>
             <div class="hover-label">
               <div class="piece-title">${p.title}</div>
-              <div class="piece-meta">${p.medium} &nbsp;·&nbsp; ${p.year}</div>
+              ${p.medium || p.year ? `<div class="piece-meta">${p.medium}${p.medium && p.year ? " · " : ""}${p.year}</div>` : ""}
             </div>`;
         }
         grid.appendChild(div);
