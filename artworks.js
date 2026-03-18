@@ -6,7 +6,7 @@
 const artworks = [
   {
     id: 1,
-    title: "Bamboo in the Garden",
+    title: "Bamboo Out Back",
     year: "",
     medium: "",
     dimensions: "",
@@ -149,7 +149,7 @@ const artworks = [
   },
   {
     id: 14,
-    title: "Untitled",
+    title: "Shattered Blooming",
     year: "",
     medium: "",
     dimensions: "",
