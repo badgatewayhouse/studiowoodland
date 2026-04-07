@@ -251,7 +251,7 @@ nav {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .lb-card {
-  background: var(--surface);
+  background: var(--bg);
   display: flex;
   max-width: 900px;
   width: 100%;
@@ -408,9 +408,10 @@ nav {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: #0d0b09;
+  background: var(--bg);
   align-items: center;
   justify-content: center;
+  padding: 4rem;
   cursor: zoom-out;
   animation: fadeIn 0.2s ease;
 }
@@ -418,8 +419,8 @@ nav {
 .fullscreen.open { display: flex; }
 
 .fullscreen img {
-  max-width: 95vw;
-  max-height: 95vh;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
