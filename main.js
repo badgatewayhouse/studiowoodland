@@ -44,6 +44,7 @@ function openLightbox(index) {
 }
 
 function renderLightbox() {
+  updateDots();
   const a = artworks[currentIndex];
   document.getElementById('lb-title').textContent = a.title;
   document.getElementById('lb-year').textContent = a.year;
@@ -114,6 +115,44 @@ function openFullscreen() {
 function closeFullscreen() {
   document.getElementById('fullscreen').classList.remove('open');
 }
+
+// ─── Dots ──────────────────────────────────────────────────────
+function buildDots() {
+  const container = document.getElementById('lb-dots');
+  container.innerHTML = '';
+  artworks.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'lb-dot';
+    dot.setAttribute('aria-label', `Artwork ${i + 1}`);
+    dot.onclick = e => { e.stopPropagation(); openLightbox(i); };
+    container.appendChild(dot);
+  });
+}
+
+function updateDots() {
+  document.querySelectorAll('.lb-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentIndex);
+  });
+}
+
+buildDots();
+
+// ─── Touch / swipe ─────────────────────────────────────────────
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.getElementById('lightbox').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.getElementById('lightbox').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy)) {
+    navigate(dx < 0 ? 1 : -1);
+  }
+}, { passive: true });
 
 // ─── Keyboard nav ──────────────────────────────────────────────
 document.addEventListener('keydown', e => {
