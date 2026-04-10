@@ -484,6 +484,12 @@ nav {
   margin-bottom: 1.5rem;
 }
 
+.coming-soon {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  color: var(--ink-light) !important;
+}
+
 /* ─── Contact ───────────────────────────────────────────────── */
 .contact-grid {
   display: grid;
