@@ -51,7 +51,7 @@ nav {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 var(--gutter);
-  height: 64px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,10 +59,22 @@ nav {
 
 .nav-brand {
   display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
   color: var(--ink);
+}
+
+.nav-logo {
+  height: 68px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.nav-brand-text {
+  display: flex;
+  align-items: center;
 }
 
 .nav-brand .studio {
@@ -74,12 +86,6 @@ nav {
   color: var(--accent);
 }
 
-.nav-brand .name {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}
 
 .nav-links {
   display: flex;
