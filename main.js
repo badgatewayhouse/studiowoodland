@@ -1,5 +1,22 @@
 let currentIndex = 0;
 
+// ─── Hamburger menu ─────────────────────────────────────────────
+const navToggle = document.getElementById('nav-toggle');
+const navLinks  = document.getElementById('nav-links');
+
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+
+// Close menu when a nav link is clicked
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', false);
+  });
+});
+
 // ─── Build grids ───────────────────────────────────────────────
 function buildGrid(containerId, items) {
   const grid = document.getElementById(containerId);

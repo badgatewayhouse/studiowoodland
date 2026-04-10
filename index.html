@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio LMR — Lynn M. Ruiz</title>
+  <title>Studio LMR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -15,10 +15,15 @@
   <header>
     <nav>
       <a class="nav-brand" href="#" onclick="showPage('home')">
-        <span class="studio">Studio LMR</span>
-        <span class="name">Lynn M. Ruiz</span>
+        <img class="nav-logo" src="LmR-logo.png?v=6" alt="LMR" />
+        <div class="nav-brand-text">
+          <span class="studio">Studio LMR</span>
+        </div>
       </a>
-      <ul class="nav-links">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
         <li><a href="#" onclick="showPage('home')">Work</a></li>
         <li><a href="#" onclick="showPage('bio')">Bio</a></li>
         <li><a href="#" onclick="showPage('statement')">Artist Statement</a></li>
@@ -40,28 +45,7 @@
     <div class="text-page">
       <p class="page-label">About the Artist</p>
       <h2>Lynn M. Ruiz</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident.
-      </p>
-      <p>
-        Sunt in culpa qui officia deserunt mollit anim id est laborum. Pellentesque habitant
-        morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
-        tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero
-        sit amet quam egestas semper. Aenean ultricies mi vitae est.
-      </p>
-      <p>
-        Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
-        Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean
-        fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus
-        lacus enim ac dui. Donec non enim in turpis pulvinar facilisis.
-      </p>
-      <p style="font-style:italic; color: var(--ink-light); font-family: var(--serif); font-size:0.9rem;">
-        ← Replace all placeholder text above with Lynn's actual bio.
-      </p>
+      <p class="coming-soon">Coming soon.</p>
     </div>
   </main>
 
@@ -70,28 +54,7 @@
     <div class="text-page">
       <p class="page-label">Artist Statement</p>
       <h2>On Making</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident.
-      </p>
-      <p>
-        Sunt in culpa qui officia deserunt mollit anim id est laborum. Pellentesque habitant
-        morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
-        tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero
-        sit amet quam egestas semper. Aenean ultricies mi vitae est.
-      </p>
-      <p>
-        Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
-        Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean
-        fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus
-        lacus enim ac dui. Donec non enim in turpis pulvinar facilisis.
-      </p>
-      <p style="font-style:italic; color: var(--ink-light); font-family: var(--serif); font-size:0.9rem;">
-        ← Replace all placeholder text above with Lynn's actual artist statement.
-      </p>
+      <p class="coming-soon">Coming soon.</p>
     </div>
   </main>
 
@@ -177,7 +140,7 @@
   </div>
 
   <footer>
-    <p>&copy; <span id="yr"></span> Lynn M. Ruiz &nbsp;·&nbsp; Studio LMR &nbsp;·&nbsp; All rights reserved</p>
+    <p>&copy; <span id="yr"></span> Studio LMR &nbsp;·&nbsp; All rights reserved</p>
   </footer>
 
   <script src="artworks.js"></script>
