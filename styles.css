@@ -455,7 +455,7 @@ nav {
 .text-page {
   max-width: 680px;
   margin: 0 auto;
-  padding: 3rem var(--gutter) 6rem;
+  padding: 1.5rem var(--gutter) 6rem;
 }
 
 .text-page .page-label {
@@ -463,7 +463,7 @@ nav {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .text-page h2 {
