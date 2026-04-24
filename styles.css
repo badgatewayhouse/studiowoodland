@@ -591,6 +591,15 @@ nav {
 }
 
 .btn-send:hover { background: #9a4a20; }
+.btn-send:disabled { opacity: 0.6; cursor: default; }
+
+.form-success-msg {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--ink-mid);
+  padding: 2rem 0;
+}
 
 /* ─── Footer ────────────────────────────────────────────────── */
 footer {
