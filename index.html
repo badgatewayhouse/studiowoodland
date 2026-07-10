@@ -108,44 +108,10 @@
     </div>
   </main>
 
-  <!-- ── Lightbox (click 1) ─────────────────────────────────────── -->
-  <div class="lightbox" id="lightbox" onclick="handleLightboxClick(event)">
-    <button class="lb-close" onclick="closeLightbox()">✕</button>
-    <button class="lb-nav prev" onclick="event.stopPropagation(); navigate(-1)">&#8592;</button>
-    <button class="lb-nav next" onclick="event.stopPropagation(); navigate(1)">&#8594;</button>
-    <div class="lb-card" onclick="event.stopPropagation()">
-      <div class="lb-image-wrap" onclick="openFullscreen()" title="Click to view full size">
-        <div class="lb-placeholder" id="lb-placeholder">artwork</div>
-        <img id="lb-img" src="" alt="" style="display:none" />
-        <span class="lb-zoom-hint">Click to enlarge</span>
-      </div>
-      <div class="lb-dots" id="lb-dots"></div>
-      <div class="lb-info">
-        <p class="lb-title" id="lb-title">Title</p>
-        <p class="lb-year" id="lb-year">2024</p>
-        <div class="lb-divider"></div>
-        <div class="lb-detail-row">
-          <span class="label">Medium</span>
-          <span class="value" id="lb-medium">Mosaic on board</span>
-        </div>
-        <div class="lb-detail-row">
-          <span class="label">Dimensions</span>
-          <span class="value" id="lb-dimensions">12 × 16 in</span>
-        </div>
-        <div class="lb-detail-row" id="lb-series-row">
-          <span class="label">Series</span>
-          <span class="value" id="lb-series"></span>
-        </div>
-        <p class="lb-note" id="lb-note"></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Fullscreen (click 2) ──────────────────────────────────── -->
-  <div class="fullscreen" id="fullscreen" onclick="closeFullscreen()">
-    <button class="fs-close" onclick="closeFullscreen()">✕</button>
-    <img id="fs-img" src="" alt="" style="display:none" />
-    <div class="fs-placeholder" id="fs-placeholder">Full resolution view</div>
+  <!-- ── Viewer (vertical feed) ─────────────────────────────────── -->
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+    <button class="viewer-close" id="viewer-close" onclick="closeViewer()" aria-label="Close viewer">✕</button>
+    <div class="viewer-feed" id="viewer-feed"></div>
   </div>
 
   <footer>
