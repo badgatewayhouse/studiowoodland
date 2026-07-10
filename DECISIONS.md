@@ -115,10 +115,15 @@ Inspired by: mosaics (geometry, tesserae, fragmented color), a bright personal s
 - Uniform `aspect-ratio: 1/1` thumbnails, `6px` gap (tight, echoes mosaic tesserae)
 - Hover: slight scale + darken + title/medium overlay fades in
 
-**Lightbox interaction (derived from katherineasullivan.com preference):**
-- Click 1 → detail panel: title, year, medium, dimensions, series, note
-- Click 2 (on image in panel) → fullscreen dark view
+**Viewer interaction (revised 2026-07 — "the Reel"):**
+- One tap → full-screen vertical feed opening at that piece; each work snaps to
+  fill the screen, scroll/flick moves between works (social-app gesture)
+- Caption: title + counter only. The metadata panel was removed — the fields
+  (year, medium, dimensions, series, note) went unfilled and buried the artwork
+- Close: large ✕ top-right, Escape, or the phone's back button
 - Keyboard: arrow keys navigate, Escape closes
+- Replaced the earlier two-level modal (detail panel → fullscreen), which needed
+  two clicks to see the work large and had a hard-to-find close button
 - No scroll-triggered animations (Lynn explicitly disliked these — michaelprice.info)
 
 **Homepage:** Goes straight to gallery grid. No hero image, no splash.

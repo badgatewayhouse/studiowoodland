@@ -1,5 +1,3 @@
-let currentIndex = 0;
-
 // ─── Hamburger menu ─────────────────────────────────────────────
 const navToggle = document.getElementById('nav-toggle');
 const navLinks  = document.getElementById('nav-links');
@@ -26,7 +24,7 @@ function buildGrid(containerId, items) {
     const div = document.createElement('div');
     div.className = 'gallery-item';
     div.dataset.index = i;
-    div.onclick = () => openLightbox(i);
+    div.onclick = () => openViewer(i);
 
     if (a.image) {
       div.innerHTML = `
@@ -52,135 +50,81 @@ function buildGrid(containerId, items) {
 
 buildGrid('home-grid', artworks);
 
-// ─── Lightbox ──────────────────────────────────────────────────
-function openLightbox(index) {
-  currentIndex = index;
-  renderLightbox();
-  document.getElementById('lightbox').classList.add('open');
+// ─── Viewer (vertical feed) ────────────────────────────────────
+// One tap opens a full-screen feed at that piece; scroll moves
+// between works. Close: ✕, Escape, or the phone's back button.
+const viewer = document.getElementById('viewer');
+const viewerFeed = document.getElementById('viewer-feed');
+
+function buildViewer() {
+  viewerFeed.innerHTML = '';
+  artworks.forEach((a, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'viewer-slide';
+
+    if (a.image) {
+      const img = document.createElement('img');
+      img.src = a.image;
+      img.alt = a.title;
+      img.loading = 'lazy';
+      slide.appendChild(img);
+    } else {
+      const ph = document.createElement('div');
+      ph.className = 'viewer-placeholder';
+      ph.style.background = a.color + '20';
+      ph.style.color = a.color;
+      ph.textContent = a.title;
+      slide.appendChild(ph);
+    }
+
+    const cap = document.createElement('div');
+    cap.className = 'viewer-cap';
+    const title = document.createElement('span');
+    title.className = 'viewer-title';
+    title.textContent = a.title;
+    const count = document.createElement('span');
+    count.className = 'viewer-count';
+    count.textContent = `${i + 1} / ${artworks.length}`;
+    cap.append(title, count);
+    slide.appendChild(cap);
+
+    viewerFeed.appendChild(slide);
+  });
+}
+
+buildViewer();
+
+function openViewer(index) {
+  viewer.classList.add('open');
   document.body.style.overflow = 'hidden';
+  viewerFeed.scrollTop = index * viewerFeed.clientHeight;
+  history.pushState({ viewer: true }, '');
+  document.getElementById('viewer-close').focus();
 }
 
-function renderLightbox() {
-  updateDots();
-  const a = artworks[currentIndex];
-  document.getElementById('lb-title').textContent = a.title;
-  document.getElementById('lb-year').textContent = a.year;
-  document.getElementById('lb-medium').textContent = a.medium;
-  document.getElementById('lb-dimensions').textContent = a.dimensions;
-
-  const seriesRow = document.getElementById('lb-series-row');
-  if (a.series) {
-    document.getElementById('lb-series').textContent = a.series;
-    seriesRow.style.display = '';
-  } else {
-    seriesRow.style.display = 'none';
-  }
-
-  const noteEl = document.getElementById('lb-note');
-  noteEl.textContent = a.note || '';
-  noteEl.style.display = a.note ? '' : 'none';
-
-  const img = document.getElementById('lb-img');
-  const ph = document.getElementById('lb-placeholder');
-  if (a.image) {
-    img.src = a.image;
-    img.alt = a.title;
-    img.style.display = 'block';
-    ph.style.display = 'none';
-  } else {
-    img.style.display = 'none';
-    ph.style.display = 'flex';
-    ph.style.background = a.color + '20';
-    ph.style.color = a.color;
-    ph.textContent = a.title;
-  }
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
+function closeViewer(fromHistory) {
+  if (!viewer.classList.contains('open')) return;
+  viewer.classList.remove('open');
   document.body.style.overflow = '';
+  if (!fromHistory && history.state && history.state.viewer) history.back();
 }
 
-function handleLightboxClick(e) {
-  if (e.target === document.getElementById('lightbox')) closeLightbox();
+// Phone back button (and browser back) closes the viewer
+window.addEventListener('popstate', () => closeViewer(true));
+
+function stepViewer(dir) {
+  const h = viewerFeed.clientHeight;
+  const target = Math.max(0, Math.min(artworks.length - 1, Math.round(viewerFeed.scrollTop / h) + dir));
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  viewerFeed.scrollTo({ top: target * h, behavior: smooth ? 'smooth' : 'auto' });
 }
-
-function navigate(dir) {
-  currentIndex = (currentIndex + dir + artworks.length) % artworks.length;
-  renderLightbox();
-}
-
-// ─── Fullscreen ────────────────────────────────────────────────
-function openFullscreen() {
-  const a = artworks[currentIndex];
-  const fs = document.getElementById('fullscreen');
-  const fsImg = document.getElementById('fs-img');
-  const fsPh = document.getElementById('fs-placeholder');
-  if (a.image) {
-    fsImg.src = a.image;
-    fsImg.alt = a.title;
-    fsImg.style.display = 'block';
-    fsPh.style.display = 'none';
-  } else {
-    fsImg.style.display = 'none';
-    fsPh.style.display = 'block';
-    fsPh.textContent = a.title + ' — full resolution';
-  }
-  fs.classList.add('open');
-}
-
-function closeFullscreen() {
-  document.getElementById('fullscreen').classList.remove('open');
-}
-
-// ─── Dots ──────────────────────────────────────────────────────
-function buildDots() {
-  const container = document.getElementById('lb-dots');
-  container.innerHTML = '';
-  artworks.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'lb-dot';
-    dot.setAttribute('aria-label', `Artwork ${i + 1}`);
-    dot.onclick = e => { e.stopPropagation(); openLightbox(i); };
-    container.appendChild(dot);
-  });
-}
-
-function updateDots() {
-  document.querySelectorAll('.lb-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentIndex);
-  });
-}
-
-buildDots();
-
-// ─── Touch / swipe ─────────────────────────────────────────────
-let touchStartX = 0;
-let touchStartY = 0;
-
-document.getElementById('lightbox').addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.getElementById('lightbox').addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy)) {
-    navigate(dx < 0 ? 1 : -1);
-  }
-}, { passive: true });
 
 // ─── Keyboard nav ──────────────────────────────────────────────
 document.addEventListener('keydown', e => {
-  const lb = document.getElementById('lightbox').classList.contains('open');
-  const fs = document.getElementById('fullscreen').classList.contains('open');
-  if (fs) { if (e.key === 'Escape') closeFullscreen(); return; }
-  if (lb) {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight') navigate(1);
-    if (e.key === 'ArrowLeft') navigate(-1);
-  }
+  if (!viewer.classList.contains('open')) return;
+  if (e.key === 'Escape') closeViewer();
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); stepViewer(1); }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); stepViewer(-1); }
 });
 
 // ─── Page routing ──────────────────────────────────────────────
