@@ -134,5 +134,31 @@ function showPage(id) {
   window.scrollTo(0, 0);
 }
 
+// ─── Contact form ──────────────────────────────────────────────
+const contactForm = document.getElementById('contact-form');
+contactForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = contactForm.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    const res = await fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { Accept: 'application/json' }
+    });
+    if (res.ok) {
+      contactForm.style.display = 'none';
+      document.getElementById('form-success').style.display = '';
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
+  } catch {
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+  }
+});
+
 // ─── Footer year ───────────────────────────────────────────────
 document.getElementById('yr').textContent = new Date().getFullYear();

@@ -84,7 +84,7 @@
         </div>
         <div class="contact-form">
           <h3>Send a message</h3>
-          <form action="https://formspree.io/f/mqewwlva" method="POST">
+          <form id="contact-form" action="https://formspree.io/f/mqewwlva" method="POST">
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Name</label>
@@ -103,6 +103,9 @@
             </div>
             <button type="submit" class="btn-send">Send Message</button>
           </form>
+          <div id="form-success" style="display:none">
+            <p class="form-success-msg">Thank you — your message has been received.</p>
+          </div>
         </div>
       </div>
     </div>
